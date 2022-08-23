@@ -6,7 +6,9 @@ from .forms import MyForm
 from django.db.models import Q
 from django.utils.http import urlencode
 from .forms import Search
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
+
 
 class IndexView(ListView):
     model = Tracker
@@ -42,12 +44,6 @@ class IndexView(ListView):
 
 
 
-
-
-
-
-
-
 class MainpageView(TemplateView):
     template_name = 'main.html'
     def get_context_data(self, **kwargs):
@@ -65,7 +61,7 @@ class DetailView(TemplateView):
         print(context)
         return context
 
-class AddView(TemplateView):
+class AddView(LoginRequiredMixin, TemplateView):
     template_name = 'add.html'
     form = MyForm
     def get_context_data(self, **kwargs):
@@ -75,7 +71,8 @@ class AddView(TemplateView):
     def post(self, request, *args, **kwargs):
         form = self.form(request.POST)
         if form.is_valid():
-            types = form.cleaned_data.pop('type')
+            print(form.cleaned_data)
+            types = form.cleaned_data.pop('tracker_type')
             new_tracker = Tracker.objects.create(summary=form.cleaned_data['summary'], description=form.cleaned_data['description'],
                                    status=form.cleaned_data['status'])
             new_tracker.tracker_type.set(types)
