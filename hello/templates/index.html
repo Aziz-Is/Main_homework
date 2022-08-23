@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% include 'partial/search.html' %}
+<body>
+{% extends 'base.html' %}
+
+
+{% block menu %}
+
+   <li><a href="{% url 'article_add' %}">Add Article</a></li>
+{% endblock %}
+{% block content %}
+   <h1>Articles:</h1>
+   <hr/>
+   {% if is_paginated %}
+       {% include 'partial/pagination.html' %}
+   {% endif %}
+   {% for article in articles %}
+       ... {# вывод статей #}
+   {% endfor %}
+   {% if is_paginated %}
+       {% include 'partial/pagination.html' %}
+   {% endif %}
+{% endblock %}
+
+
+{% if is_paginated %}
+   {% include 'partial/pagination.html' %}
+{% endif %}
+
+</body>
+</html>
