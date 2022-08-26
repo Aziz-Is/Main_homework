@@ -79,7 +79,7 @@ class AddView(LoginRequiredMixin, TemplateView):
             return redirect('home')
         return render(request, 'add.html', {'my_form': form})
 
-class UpdateView(TemplateView):
+class UpdateView(LoginRequiredMixin, TemplateView):
     template_name = 'add.html'
     form = MyForm
     def get_context_data(self, **kwargs):
@@ -100,7 +100,7 @@ class UpdateView(TemplateView):
             return redirect('home')
         return render(request, 'add.html',{'my_form':form})
 
-class DeleteView(TemplateView):
+class DeleteView(LoginRequiredMixin, TemplateView):
     template_name = 'delete.html'
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
